@@ -1,6 +1,9 @@
 import { Platform } from 'react-native'
 import { useTheme } from 'native-base'
-import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import {
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs'
 
 import { AdDetails } from '@screens/AdDetails'
 import { CreateAd } from '@screens/CreateAd'
@@ -58,14 +61,18 @@ export function AppRoutes() {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({ color }) => <HomeSvg fill={color} width={iconSize} height={iconSize} />,
+          tabBarIcon: ({ color }) => (
+            <HomeSvg fill={color} width={iconSize} height={iconSize} />
+          ),
         }}
       />
       <Screen
         name="MyAd"
         component={MyAd}
         options={{
-          tabBarIcon: ({ color }) => <TagSvg fill={color} width={iconSize} height={iconSize} />,
+          tabBarIcon: ({ color }) => (
+            <TagSvg fill={color} width={iconSize} height={iconSize} />
+          ),
         }}
       />
 
@@ -73,7 +80,13 @@ export function AppRoutes() {
         name="Logout"
         component={Logout}
         options={{
-          tabBarIcon: () => <SignOutSvg fill={colors.red[500]} width={iconSize} height={iconSize} />,
+          tabBarIcon: () => (
+            <SignOutSvg
+              fill={colors.red[500]}
+              width={iconSize}
+              height={iconSize}
+            />
+          ),
         }}
         listeners={() => ({
           tabPress: async () => await signOut(),
