@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Center, Heading, ScrollView, Text, VStack, useToast } from 'native-base'
+import {
+  Center,
+  Heading,
+  ScrollView,
+  Text,
+  VStack,
+  useToast,
+} from 'native-base'
 
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
@@ -25,7 +32,10 @@ interface FormDataProps {
 
 const signInSchema = yup.object({
   email: yup.string().required('Informe o e-mail.').email('E-mail inválido.'),
-  password: yup.string().required('Informe a senha.').min(6, 'A senha deve ter ao menos 6 dígitos.'),
+  password: yup
+    .string()
+    .required('Informe a senha.')
+    .min(6, 'A senha deve ter ao menos 6 dígitos.'),
 })
 
 export function SignIn() {
@@ -50,7 +60,9 @@ export function SignIn() {
       await signIn(email, password)
     } catch (error) {
       const isAppError = error instanceof AppError
-      const title = isAppError ? error.message : 'Não foi possível conectar. Tente novamente mais tarde.'
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível conectar. Tente novamente mais tarde.'
       setIsSignIn(false)
 
       toast.show({
@@ -68,14 +80,23 @@ export function SignIn() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <VStack bgColor="gray.700" flex={1}>
-        <VStack bgColor="gray.600" roundedBottomLeft={24} roundedBottomRight={24}>
+        <VStack
+          bgColor="gray.600"
+          roundedBottomLeft={24}
+          roundedBottomRight={24}
+        >
           <Center my={20}>
             <LogoSvg />
 
             <Heading color="gray.100" fontFamily="bold" fontSize="4xl">
               marketspace
             </Heading>
-            <Text color="gray.300" fontSize="sm" fontFamily="regular" lineHeight="sm">
+            <Text
+              color="gray.300"
+              fontSize="sm"
+              fontFamily="regular"
+              lineHeight="sm"
+            >
               Seu espaço de compra e vendas
             </Text>
           </Center>
