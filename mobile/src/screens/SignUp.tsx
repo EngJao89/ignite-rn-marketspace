@@ -1,38 +1,38 @@
 /* eslint-disable camelcase */
-import { useState } from 'react';
-import { 
-  Center, 
-  Heading, 
-  IconButton, 
-  ScrollView, 
-  Skeleton, 
-  Text, 
-  VStack, 
-  useToast 
-} from 'native-base';
+import { useState } from 'react'
+import {
+  Center,
+  Heading,
+  IconButton,
+  ScrollView,
+  Skeleton,
+  Text,
+  VStack,
+  useToast,
+} from 'native-base'
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 
-import LogoSignUpSvg from '@assets/logo1.svg';
-import DefaultUserPhoto from '@assets/userPhotoDefault.png';
+import LogoSignUpSvg from '@assets/logo1.svg'
+import DefaultUserPhoto from '@assets/userPhotoDefault.png'
 
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons'
 
-import { UserPhoto } from '@components/UserPhoto';
-import { Input } from '@components/Input';
-import { InputPassword } from '@components/InputPassword';
-import { Button } from '@components/Button';
+import { UserPhoto } from '@components/UserPhoto'
+import { Input } from '@components/Input'
+import { InputPassword } from '@components/InputPassword'
+import { Button } from '@components/Button'
 
-import { api } from '@services/api';
-import { AppError } from '@utils/AppError';
+import { api } from '@services/api'
+import { AppError } from '@utils/AppError'
 
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import * as yup from 'yup'
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
-import { useAuth } from '@hooks/useAuth';
+import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system'
+import { useAuth } from '@hooks/useAuth'
 
 interface FormDataProps {
   name: string
@@ -40,25 +40,31 @@ interface FormDataProps {
   tel: string
   password: string
   password_confirm: string
-};
+}
 
 const signUpSchema = yup.object({
   name: yup.string().required('Informe o nome.'),
   email: yup.string().required('Informe o e-mail.').email('E-mail inválido.'),
-  tel: yup.string().required('Informe o seu telefone.').min(13, 'Informe o DDI e o DDD: 5561234567890'),
-  password: yup.string().required('Informe a senha.').min(6, 'A senha deve ter ao menos 6 dígitos.'),
+  tel: yup
+    .string()
+    .required('Informe o seu telefone.')
+    .min(13, 'Informe o DDI e o DDD: 5561234567890'),
+  password: yup
+    .string()
+    .required('Informe a senha.')
+    .min(6, 'A senha deve ter ao menos 6 dígitos.'),
   password_confirm: yup
     .string()
     .required('Confirme a senha.')
     .oneOf([yup.ref('password')], 'As senhas devem ser iguais.'),
-});
+})
 
 export function SignUp() {
-  const [userPhoto, setUserPhoto] = useState<any>();
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [isPhotoLoading, setIsPhotoLoading] = useState(false);
+  const [userPhoto, setUserPhoto] = useState<any>()
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [isPhotoLoading, setIsPhotoLoading] = useState(false)
 
-  const { signIn } = useAuth();
+  const { signIn } = useAuth()
 
   const {
     control,
@@ -66,10 +72,10 @@ export function SignUp() {
     formState: { errors },
   } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema),
-  });
+  })
 
-  const navigation = useNavigation();
-  const toast = useToast();
+  const navigation = useNavigation()
+  const toast = useToast()
 
   async function handleSignUp({ name, email, tel, password }: FormDataProps) {
     try {
@@ -101,7 +107,9 @@ export function SignUp() {
     } catch (error) {
       setIsSignUp(false)
       const isAppError = error instanceof AppError
-      const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde.'
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível criar a conta. Tente novamente mais tarde.'
 
       toast.show({
         title,
@@ -109,7 +117,7 @@ export function SignUp() {
         bgColor: 'red.500',
       })
     }
-  };
+  }
 
   async function handleSelectImage() {
     try {
@@ -127,7 +135,10 @@ export function SignUp() {
       }
 
       if (imageSelected.assets[0].uri) {
-        const imageInfo = await FileSystem.getInfoAsync(imageSelected.assets[0].uri, { size: true })
+        const imageInfo = await FileSystem.getInfoAsync(
+          imageSelected.assets[0].uri,
+          { size: true },
+        )
 
         if (imageInfo.exists && imageInfo.size / 1024 / 1024 > 5) {
           return toast.show({
@@ -144,11 +155,11 @@ export function SignUp() {
     } finally {
       setIsPhotoLoading(false)
     }
-  };
+  }
 
   function handleBack() {
     navigation.goBack()
-  };
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -159,16 +170,32 @@ export function SignUp() {
           <Heading color="gray.100" fontFamily="bold" fontSize="xl" mt={4}>
             Boas Vindas!
           </Heading>
-          <Text textAlign="center" color="gray.200" fontFamily="regular" fontSize="sm" mt={2}>
-            Crie sua conta e use o espaço para comprar{'\n'} itens variados e vender seus produtos
+          <Text
+            textAlign="center"
+            color="gray.200"
+            fontFamily="regular"
+            fontSize="sm"
+            mt={2}
+          >
+            Crie sua conta e use o espaço para comprar{'\n'} itens variados e
+            vender seus produtos
           </Text>
         </Center>
 
         <Center mx={12}>
           {isPhotoLoading ? (
-            <Skeleton w={24} h={24} rounded="full" startColor="gray.500" endColor="gray.400" />
+            <Skeleton
+              w={24}
+              h={24}
+              rounded="full"
+              startColor="gray.500"
+              endColor="gray.400"
+            />
           ) : (
-            <UserPhoto size={24} source={!userPhoto ? DefaultUserPhoto : { uri: userPhoto.uri }} />
+            <UserPhoto
+              size={24}
+              source={!userPhoto ? DefaultUserPhoto : { uri: userPhoto.uri }}
+            />
           )}
 
           <IconButton
