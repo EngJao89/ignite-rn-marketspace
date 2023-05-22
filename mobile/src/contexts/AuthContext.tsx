@@ -4,8 +4,17 @@ import { ReactNode, createContext, useEffect, useState } from 'react'
 import { UserDTO } from '@dtos/UserDTO'
 import { api } from '@services/api'
 
-import { storageUserGet, storageUserRemove, storageUserSave } from '@storage/storageUser'
-import { storageUserTokenGet, storageUserTokenRemove, storageUserTokenSave } from '@storage/storageAuthToken'
+import {
+  storageUserGet,
+  storageUserRemove,
+  storageUserSave,
+} from '@storage/storageUser'
+
+import {
+  storageUserTokenGet,
+  storageUserTokenRemove,
+  storageUserTokenSave,
+} from '@storage/storageAuthToken'
 
 export interface AuthContextDataProps {
   user: UserDTO
@@ -13,13 +22,17 @@ export interface AuthContextDataProps {
   signOut: () => Promise<void>
 }
 
-export const AuthContext = createContext<AuthContextDataProps>({} as AuthContextDataProps)
+export const AuthContext = createContext<AuthContextDataProps>(
+  {} as AuthContextDataProps,
+)
 
 interface AuthContextDataProviderProps {
   children: ReactNode
 }
 
-export function AuthContextProvider({ children }: AuthContextDataProviderProps) {
+export function AuthContextProvider({
+  children,
+}: AuthContextDataProviderProps) {
   const [user, setUser] = useState<UserDTO>({} as UserDTO)
 
   function updateUserAndToken(userData: UserDTO, token: string) {
@@ -28,7 +41,11 @@ export function AuthContextProvider({ children }: AuthContextDataProviderProps) 
     setUser(userData)
   }
 
-  async function storageUserAndTokenData(userData: UserDTO, token: string, refresh_token: string) {
+  async function storageUserAndTokenData(
+    userData: UserDTO,
+    token: string,
+    refresh_token: string,
+  ) {
     try {
       await storageUserSave(userData)
       await storageUserTokenSave(token, refresh_token)
@@ -87,5 +104,9 @@ export function AuthContextProvider({ children }: AuthContextDataProviderProps) 
     }
   }, [signOut])
 
-  return <AuthContext.Provider value={{ user, signIn, signOut }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, signIn, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
