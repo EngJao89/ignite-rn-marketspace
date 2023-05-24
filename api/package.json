@@ -1,11 +1,11 @@
 {
-  "name": "api",
+  "name": "marketspace-api",
   "version": "1.0.0",
+  "description": "Ignite React Native 2022 Third Challenge",
   "main": "index.js",
   "scripts": {
     "dev": "tsnd --exit-child --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "cz"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -50,7 +50,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }
